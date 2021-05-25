@@ -46,7 +46,7 @@ class AudioRecorder {
 
   static Future<Recording> stop() async {
     Map<String, Object> response =
-        Map.from(await _channel.invokeMethod('stop') as FutureOr<Map<dynamic, dynamic>>);
+        Map.from(await _channel.invokeMethod('stop') as Map<dynamic, dynamic>);
     Recording recording = new Recording(
         duration: new Duration(milliseconds: response['duration'] as int),
         path: response['path'] as String?,
@@ -112,7 +112,7 @@ class Recording {
   // File extension
   String? extension;
   // Audio duration in milliseconds
-  Duration duration;
+  Duration? duration;
   // Audio output format
   AudioOutputFormat? audioOutputFormat;
 
