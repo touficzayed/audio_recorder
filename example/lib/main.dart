@@ -80,7 +80,7 @@ class AppBodyState extends State<AppBody> {
 
   _start() async {
     try {
-      if (await AudioRecorder.hasPermissions) {
+      if (await AudioRecorder.hasPermissions == true) {
         if (_controller.text != null && _controller.text != "") {
           String path = _controller.text;
           if (!_controller.text.contains('/')) {
@@ -94,7 +94,7 @@ class AppBodyState extends State<AppBody> {
         } else {
           await AudioRecorder.start();
         }
-        bool isRecording = await AudioRecorder.isRecording;
+        bool isRecording = await AudioRecorder.isRecording ?? false;
         setState(() {
           _recording = new Recording(duration: new Duration(), path: "");
           _isRecording = isRecording;
@@ -111,13 +111,13 @@ class AppBodyState extends State<AppBody> {
   _stop() async {
     var recording = await AudioRecorder.stop();
     print("Stop recording: ${recording.path}");
-    bool isRecording = await AudioRecorder.isRecording;
+    bool isRecording = await AudioRecorder.isRecording ?? false;
     File file = widget.localFileSystem.file(recording.path);
     print("  File length: ${await file.length()}");
     setState(() {
       _recording = recording;
       _isRecording = isRecording;
     });
-    _controller.text = recording.path;
+    _controller.text = recording.path ?? '';
   }
 }
